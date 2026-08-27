@@ -1,9 +1,9 @@
 # Full Stack Chat Application - Phase 1
 
-**Student Name:** *Tasnim Haque*
-**S Number:** *S5350373*
-**Workshop:** *Friday, 2pm - 4pm*
-Course: 3813ICT - Full Stack Development
+**Student Name:** *Tasnim Haque*  
+**S Number:** *S5350373*  
+**Workshop:** *Friday, 2pm - 4pm*  
+Course: 3813ICT - Full Stack Development  
 Phase: Phase 1 - Elicitation of requirements, planning, design and early prototype
 
 # 1. Project Overview
