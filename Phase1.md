@@ -34,3 +34,16 @@ This application is an early prototype. The prototype will demonstrate:
 - Group Admin interaface (For Group Admins only)
 - Super Admin interface (For Super Admin only)
 - Local storage of the current logged-in user
+
+# 2 Git Strategy
+## 2.1 The Repository
+Git will be used for this application to provide version control and also to demonstrate the progression of the application.
+This repository will be maintained in the GitHub and the professor will be added as a collaborator.
+The documentation for phase 1 will be stored as Phase1.md
+
+## 2.3 Branching Strategy
+There will be 2 branches:
+- main
+- dev
+
+The main branch will contain the stable version of the application and the dev branch will be used to develop and work on adding new features and functionalities. Once a new feature is added and is stable, the dev branch will be merged with the main branch to update the stable version.
