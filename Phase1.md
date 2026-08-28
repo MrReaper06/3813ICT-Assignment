@@ -72,7 +72,8 @@ There is only one Super Admin. A super admin has the same permissions as a group
 
 # 4. Data Structures
 ## 4.1 User
-`class User {
+```
+class User {
     constructor(username, email, password, birthdate, age) {
         this.username = username;
         this.email = email;
@@ -82,7 +83,8 @@ There is only one Super Admin. A super admin has the same permissions as a group
         this.role = "user";
         this.banned = false;
     }
-}`
+}
+```
 
 | Field | Description |
 | ----------- | ----------- |
