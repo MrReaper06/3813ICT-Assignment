@@ -71,7 +71,28 @@ There is only one Super Admin. A super admin has the same permissions as a group
 - Process group requests
 
 # 4. Data Structures
-This section will be updated as the application is developed.
+## 4.1 User
+`class User {
+    constructor(username, email, password, birthdate, age) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.birthdate = birthdate;
+        this.age = age;
+        this.role = "user";
+        this.banned = false;
+    }
+}`
+
+| Field | Description |
+| ----------- | ----------- |
+| username | Unique username registered by the user for the application. It will also be used as a display name |
+| email | Unique email address registered by the user |
+| password | User authentication credential |
+| birthdate | Birthdate given by the user |
+| age | Age given by the user |
+| role | Global role of the user |
+| banned | System level permanent ban. The user will not be deleted and the date of the user will be stored |
 
 # 5. Angular Architecture
 ## 5.1 Components
