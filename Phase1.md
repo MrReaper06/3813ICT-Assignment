@@ -72,7 +72,8 @@ There is only one Super Admin. A super admin has the same permissions as a group
 
 # 4. Data Structures
 ## 4.1 User
-`class User {
+```
+class User {
     constructor(username, email, password, birthdate, age) {
         this.username = username;
         this.email = email;
@@ -82,7 +83,8 @@ There is only one Super Admin. A super admin has the same permissions as a group
         this.role = "user";
         this.banned = false;
     }
-}`
+}
+```
 
 | Field | Description |
 | ----------- | ----------- |
@@ -93,6 +95,36 @@ There is only one Super Admin. A super admin has the same permissions as a group
 | age | Age given by the user |
 | role | Global role of the user |
 | banned | System level permanent ban. The user will not be deleted and the date of the user will be stored |
+
+## 4.2 Group
+```
+class Group {
+    constructor(name, description, ageLimit, colorTheme, requestedByUserId) {
+        this.groupId = groupId;
+        this.name = name;
+        this.description = description;
+        this.ageLimit = ageLimit;
+        this.colorTheme = colorTheme;
+
+        this.adminIds = [];
+        this.memberIds = [];
+        this.bannedUserIds = [];
+    }
+}
+
+export { Group };
+```
+
+| Field | Description |
+| ----------- | ----------- |
+| groupId | Unique group indentifier |
+| name | Group name |
+| description | Description of the group |
+| ageLimit | Minimum age required to join the group |
+| colorTheme | TColor Theme to be applied to the group and it's channels |
+| adminIds | Ids of the users who are group admin |
+| memberIds | Ids of the users who are currently a member of the group |
+| bannedUserIds | Ids of the users who are banned from the group |
 
 # 5. Angular Architecture
 ## 5.1 Components
