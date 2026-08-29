@@ -5,7 +5,7 @@ class User {
         this.password = password;
         this.birthdate = birthdate;
         this.age = age;
-        this.role = "user";
+        this.role = "user"; // "user" | "groupAdmin" | "superAdmin"
         this.banned = false;
     }
 }
