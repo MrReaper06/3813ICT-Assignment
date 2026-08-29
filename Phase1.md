@@ -121,10 +121,32 @@ export { Group };
 | name | Group name |
 | description | Description of the group |
 | ageLimit | Minimum age required to join the group |
-| colorTheme | TColor Theme to be applied to the group and it's channels |
+| colorTheme | Color Theme to be applied to the group and it's channels |
 | adminIds | Ids of the users who are group admin |
 | memberIds | Ids of the users who are currently a member of the group |
 | bannedUserIds | Ids of the users who are banned from the group |
+
+## 4.3 Channel
+```
+class Channel {
+    constructor(groupId, name, requestedByUserId) {
+        this.groupId = groupId;
+        this.name = name;
+        this.requestedByUserId = requestedByUserId;
+
+        this.status = "pending"; // "pending" | "approved" | "rejected"
+        this.rejectedReason = null;
+    }
+}
+```
+
+| Field | Description |
+| ----------- | ----------- |
+| groupId | Unique group indentifier |
+| name | channel name |
+| requestedByUserId | Id of the user who requested the channel |
+| status | Status of the group after the user requested for this channel |
+| rejectedReason | Rejection by the group admin **must** include a reason |
 
 # 5. Angular Architecture
 ## 5.1 Components

@@ -6,8 +6,8 @@ class Group {
         this.ageLimit = ageLimit;
         this.colorTheme = colorTheme;
 
-        this.adminIds = [];
-        this.memberIds = [];
+        this.adminIds = [requestedByUserId];
+        this.memberIds = [requestedByUserId];
         this.bannedUserIds = [];
     }
 }
