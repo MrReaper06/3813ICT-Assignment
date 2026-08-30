@@ -86,15 +86,15 @@ class User {
 }
 ```
 
-| Field | Description |
-| ----------- | ----------- |
-| username | Unique username registered by the user for the application. It will also be used as a display name |
-| email | Unique email address registered by the user |
-| password | User authentication credential |
-| birthdate | Birthdate given by the user |
-| age | Age given by the user |
-| role | Global role of the user |
-| banned | System level permanent ban. The user will not be deleted and the date of the user will be stored |
+| Field | Data Type | Description |
+| ----------- | ----------- | ----------- |
+| username | string | Unique username registered by the user for the application. It will also be used as a display name |
+| email | string | Unique email address registered by the user |
+| password | string | User authentication credential |
+| birthdate | string | Birthdate given by the user |
+| age | number | Age given by the user |
+| role | "user" | "groupAdmin" | "superAdmin" | Global role of the user |
+| banned | boolean | System level permanent ban. The user will not be deleted and the date of the user will be stored |
 
 ## 4.2 Group
 ```
@@ -115,21 +115,22 @@ class Group {
 export { Group };
 ```
 
-| Field | Description |
-| ----------- | ----------- |
-| groupId | Unique group indentifier |
-| name | Group name |
-| description | Description of the group |
-| ageLimit | Minimum age required to join the group |
-| colorTheme | Color Theme to be applied to the group and it's channels |
-| adminIds | Ids of the users who are group admin |
-| memberIds | Ids of the users who are currently a member of the group |
-| bannedUserIds | Ids of the users who are banned from the group |
+| Field | Data Type | Description |
+| ----------- | ----------- | ----------- |
+| groupId | string | Unique group indentifier |
+| name | string | Group name |
+| description | string | Description of the group |
+| ageLimit | number | Minimum age required to join the group |
+| colorTheme | string | Color Theme to be applied to the group and it's channels |
+| adminIds | string[] | Ids of the users who are group admin |
+| memberIds | string[] | Ids of the users who are currently a member of the group |
+| bannedUserIds | string[] | Ids of the users who are banned from the group |
 
 ## 4.3 Channel
 ```
 class Channel {
     constructor(groupId, name, requestedByUserId) {
+        this.channelId = channelId;
         this.groupId = groupId;
         this.name = name;
         this.requestedByUserId = requestedByUserId;
@@ -140,13 +141,14 @@ class Channel {
 }
 ```
 
-| Field | Description |
-| ----------- | ----------- |
-| groupId | Unique group indentifier |
-| name | channel name |
-| requestedByUserId | Id of the user who requested the channel |
-| status | Status of the group after the user requested for this channel |
-| rejectedReason | Rejection by the group admin **must** include a reason |
+| Field | Data Type | Description |
+| ----------- | ----------- | ----------- |
+| channelId | string | Unique channel indentifier |
+| groupId | string | Unique group indentifier |
+| name | string | channel name |
+| requestedByUserId | string | Id of the user who requested the channel |
+| status | '"pending" | "approved" | "rejected"' | Status of the group after the user requested for this channel |
+| rejectedReason | "string | null" | Rejection by the group admin **must** include a reason |
 
 # 5. Angular Architecture
 ## 5.1 Components

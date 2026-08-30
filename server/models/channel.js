@@ -1,5 +1,6 @@
 class Channel {
-    constructor(groupId, name, requestedByUserId) {
+    constructor(channelId, groupId, name, requestedByUserId) {
+        this.channelId = channelId;
         this.groupId = groupId;
         this.name = name;
         this.requestedByUserId = requestedByUserId;
