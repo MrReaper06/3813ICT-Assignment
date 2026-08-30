@@ -130,6 +130,7 @@ export { Group };
 ```
 class Channel {
     constructor(groupId, name, requestedByUserId) {
+        this.channelId = channelId;
         this.groupId = groupId;
         this.name = name;
         this.requestedByUserId = requestedByUserId;
@@ -140,13 +141,14 @@ class Channel {
 }
 ```
 
-| Field | Description |
-| ----------- | ----------- |
-| groupId | Unique group indentifier |
-| name | channel name |
-| requestedByUserId | Id of the user who requested the channel |
-| status | Status of the group after the user requested for this channel |
-| rejectedReason | Rejection by the group admin **must** include a reason |
+| Field | Data Type | Description |
+| ----------- | ----------- | ----------- |
+| channelId | string | Unique channel indentifier |
+| groupId | string | Unique group indentifier |
+| name | string | channel name |
+| requestedByUserId | string | Id of the user who requested the channel |
+| status | '"pending" | "approved" | "rejected"' | Status of the group after the user requested for this channel |
+| rejectedReason | "string | null" | Rejection by the group admin **must** include a reason |
 
 # 5. Angular Architecture
 ## 5.1 Components
