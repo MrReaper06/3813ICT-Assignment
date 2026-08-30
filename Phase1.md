@@ -115,16 +115,16 @@ class Group {
 export { Group };
 ```
 
-| Field | Description |
-| ----------- | ----------- |
-| groupId | Unique group indentifier |
-| name | Group name |
-| description | Description of the group |
-| ageLimit | Minimum age required to join the group |
-| colorTheme | Color Theme to be applied to the group and it's channels |
-| adminIds | Ids of the users who are group admin |
-| memberIds | Ids of the users who are currently a member of the group |
-| bannedUserIds | Ids of the users who are banned from the group |
+| Field | Data Type | Description |
+| ----------- | ----------- | ----------- |
+| groupId | string | Unique group indentifier |
+| name | string | Group name |
+| description | string | Description of the group |
+| ageLimit | number | Minimum age required to join the group |
+| colorTheme | string | Color Theme to be applied to the group and it's channels |
+| adminIds | string[] | Ids of the users who are group admin |
+| memberIds | string[] | Ids of the users who are currently a member of the group |
+| bannedUserIds | string[] | Ids of the users who are banned from the group |
 
 ## 4.3 Channel
 ```
