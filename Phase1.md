@@ -147,8 +147,8 @@ class Channel {
 | groupId | string | Unique group indentifier |
 | name | string | channel name |
 | requestedByUserId | string | Id of the user who requested the channel |
-| status | '"pending" | "approved" | "rejected"' | Status of the group after the user requested for this channel |
-| rejectedReason | "string | null" | Rejection by the group admin **must** include a reason |
+| status | "pending" (|) "approved" (|) "rejected" | Status of the group after the user requested for this channel |
+| rejectedReason | string (|) null | Rejection by the group admin **must** include a reason |
 
 # 5. Angular Architecture
 ## 5.1 Components
