@@ -86,15 +86,15 @@ class User {
 }
 ```
 
-| Field | Description |
-| ----------- | ----------- |
-| username | Unique username registered by the user for the application. It will also be used as a display name |
-| email | Unique email address registered by the user |
-| password | User authentication credential |
-| birthdate | Birthdate given by the user |
-| age | Age given by the user |
-| role | Global role of the user |
-| banned | System level permanent ban. The user will not be deleted and the date of the user will be stored |
+| Field | Data Type | Description |
+| ----------- | ----------- | ----------- |
+| username | string | Unique username registered by the user for the application. It will also be used as a display name |
+| email | string | Unique email address registered by the user |
+| password | string | User authentication credential |
+| birthdate | string | Birthdate given by the user |
+| age | number | Age given by the user |
+| role | "user" | "groupAdmin" | "superAdmin" | Global role of the user |
+| banned | boolean | System level permanent ban. The user will not be deleted and the date of the user will be stored |
 
 ## 4.2 Group
 ```
