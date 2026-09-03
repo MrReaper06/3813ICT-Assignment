@@ -2,14 +2,14 @@
     <div class="container-fluid">
         <a class="navbar-brand" routerLink="/">Reaper</a>
 
-        <div class="collapse navbar-collapse">
+        <!-- <div class="collapse navbar-collapse">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                 <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                     Home
                 </a>
                 </li>
-            </ul>
+            </ul> -->
 
             <ul class="navbar-nav">
                 @if (!auth.isLoggedIn()) {
@@ -36,5 +36,5 @@
                 }
             </ul>
         </div>
-    </div>
+    <!-- </div> -->
 </nav>
