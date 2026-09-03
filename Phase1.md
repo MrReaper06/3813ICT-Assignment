@@ -183,4 +183,24 @@ class Channel {
 | Channel | Interface | id, groupId, name, requestedByUserId, status ('pending' \| 'approved' \| 'rejected'), rejectionReason |
 
 # 6. REST API
-This section will be updated as the application is developed.
+| Method | Endpoint | Body / Params | Returns | Description |
+|---|---|---|---|---|
+| POST | /api/auth | `{ email, password }` | `{ valid: true, username, email, birthdate, age, role, banned }` or `{ valid: false }` or `{ valid: false, banned: true }` | It checks the credentials against the persisted user list and rejects banned users even on a correct password match. The password is never returned. |
+| POST | /api/register | `{ username, email, password, birthdate, age }` | `{ ok: true, user: {...} }` or `{ ok: false, message }` | It creates a new user if the email id isn't already registered. The email id is the unique identifier - the client spec confirms a banned email can never be reused. |
+| GET | /api/users | - (super admin only) | `User[]` | It returns a full user list including permanently banned accounts, for the super admin dashboard. |
+| PATCH | /api/users/:email/ban | - (super admin only) | `{ ok: true }` | It permanently bans a user. The client spec confirms the email can never be reused. |
+| GET | /api/groups | - | `Group[]` | All groups. Client spec: users can see all groups regardless of age restriction, but joining one below their age is rejected. |
+| POST | /api/groups/request | `{ name, description, ageLimit, colourTheme }` | `{ ok: true, requestId }` | The regular user requests a new group and only a super admin can actually create it from this request. |
+| POST | /api/groups/:id/approve | - (super admin only) | `{ ok: true, group }` | The super admin approves a pending group request, creating a real Group record. |
+| POST | /api/groups/:id/reject | `{ reason }` | `{ ok: true }` | The super admin rejects a group request. Client spec: the rejections must include a reason. |
+| PATCH | /api/groups/:id | `{ name?, description?, ageLimit?, colourTheme? }` | `{ ok: true, group }` | The group admin edits group details. Client spec: no user request required for a group admin to make these changes directly. |
+| POST | /api/groups/:id/promote | `{ userEmail }` | `{ ok: true }` | It promotes an existing group member to group admin. Any current admin can do this. |
+| POST | /api/groups/:id/demote | `{ userEmail }` | `{ ok: true }` or `{ ok: false, message }` | It demotes a group admin back to member. Rejected if it would leave the group with zero admins. |
+| POST | /api/groups/:id/ban | `{ userEmail }` | `{ ok: true }` | Group-level ban - removes the user from this group only, it is distinct from a system-wide super admin ban. |
+| GET | /api/groups/:id/members | - (group admin only) | `{ members: User[], banned: User[] }` | It is the group admin's view of allowed and banned members for their own group. |
+| DELETE | /api/groups/:id/request | `{ reason }` | `{ ok: true, requestId }` | The group admin can request group deletion from the super admin (a group can't self-delete). |
+| POST | /api/groups/:id/channels/request | `{ name }` | `{ ok: true, requestId }` | A regular user proposes a new channel within a group. |
+| POST | /api/groups/:id/channels/:channelId/approve | - (group admin only) | `{ ok: true, channel }` | The group admin approves a pending channel request. |
+| POST | /api/groups/:id/channels/:channelId/reject | `{ reason }` | `{ ok: true }` | The group admin rejects a channel request. Client spec: rejections must include a reason. |
+| PATCH | /api/groups/:id/channels/:channelId | `{ name }` | `{ ok: true, channel }` | The group admin edits a channel's name (e.g. fixing a typo), per client spec. |
+| GET | /api/audit-log | - | `AuditEntry[]` | It is the super admin's audit log - filterable by type and date range per client spec. |
