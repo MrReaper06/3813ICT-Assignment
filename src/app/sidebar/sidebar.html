@@ -1,0 +1,16 @@
+<div class="sidebar">
+  <button class="sidebar-btn" type="button">Direct Message</button>
+  <button class="sidebar-btn" type="button">Groups</button>
+
+  <div class="sidebar-spacer"></div>
+
+  @if (userRole() === 'groupAdmin') {
+    <button class="sidebar-btn" type="button">Group Settings</button>
+  } @else if (userRole() === 'superAdmin') {
+    <button class="sidebar-btn" type="button">Super Admin Settings</button>
+  }
+
+  <button class="sidebar-btn" type="button">Request</button>
+  <button class="sidebar-btn" type="button">Settings</button>
+  <button class="sidebar-btn" type="button" (click)="logout()">Logout</button>
+</div>
