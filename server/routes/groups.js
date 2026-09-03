@@ -2,8 +2,9 @@ import { Group } from "../models/group.js";
 import { Channel } from "../models/channel.js";
 import { GroupRequest } from "../models/groupRequest.js";
 import { getRequests, addRequest, saveRequests } from "../data/groupRequestRepository.js";
-import { getGroups, addGroup } from "../data/groupRepository.js";
 import { getChannels, addChannel, saveChannels } from "../data/channelRepository.js";
+import { getUsers } from "../data/userRepository.js";
+import { getGroups, addGroup, saveGroups } from "../data/groupRepository.js";
 
 function groupRoutes(app) {
     app.post("/api/groups/request", (req, res) => {
@@ -124,6 +125,72 @@ function groupRoutes(app) {
         channel.status = "rejected";
         channel.rejectionReason = reason;
         saveChannels();
+        res.send({ ok: true });
+    });
+
+    app.get("/api/groups/mine", (req, res) => {
+        const email = req.query.email;
+        const mine = getGroups().filter(g => g.adminIds.includes(email));
+        res.send(mine);
+    });
+
+    app.get("/api/groups/:groupId/members", (req, res) => {
+        const group = getGroups().find(g => g.id === req.params.groupId);
+        if (!group) {
+            return res.sendStatus(404);
+        }
+
+        const users = getUsers();
+        const members = users.filter(u => group.memberIds.includes(u.email))
+            .map(({ password, ...safe }) => safe);
+        const banned = users.filter(u => group.bannedUserIds.includes(u.email))
+            .map(({ password, ...safe }) => safe);
+
+        res.send({ members, banned });
+    });
+
+    app.post("/api/groups/:groupId/promote", (req, res) => {
+        const { userEmail } = req.body;
+        const group = getGroups().find(g => g.id === req.params.groupId);
+        if (!group) {
+            return res.sendStatus(404);
+        }
+
+        if (!group.adminIds.includes(userEmail)) {
+            group.adminIds.push(userEmail);
+        }
+        saveGroups();
+        res.send({ ok: true });
+    });
+
+    app.post("/api/groups/:groupId/demote", (req, res) => {
+        const { userEmail } = req.body;
+        const group = getGroups().find(g => g.id === req.params.groupId);
+        if (!group) {
+            return res.sendStatus(404);
+        }
+
+        if (group.adminIds.length <= 1) {
+            return res.send({ ok: false, message: "A group must always have at least one admin." });
+        }
+
+        group.adminIds = group.adminIds.filter(id => id !== userEmail);
+        saveGroups();
+        res.send({ ok: true });
+    });
+
+    app.post("/api/groups/:groupId/ban", (req, res) => {
+        const { userEmail } = req.body;
+        const group = getGroups().find(g => g.id === req.params.groupId);
+        if (!group) {
+            return res.sendStatus(404);
+        }
+
+        group.memberIds = group.memberIds.filter(id => id !== userEmail);
+        if (!group.bannedUserIds.includes(userEmail)) {
+            group.bannedUserIds.push(userEmail);
+        }
+        saveGroups();
         res.send({ ok: true });
     });
 

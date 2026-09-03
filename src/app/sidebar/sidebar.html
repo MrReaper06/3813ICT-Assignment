@@ -5,9 +5,9 @@
   <div class="sidebar-spacer"></div>
 
   @if (userRole() === 'groupAdmin') {
-    <button class="sidebar-btn" type="button">Group Settings</button>
+    <a class="sidebar-btn btn" routerLink="/group-settings">Group Settings</a>
   } @else if (userRole() === 'superAdmin') {
-    <button class="sidebar-btn" type="button">Super Admin Settings</button>
+    <a class="sidebar-btn btn" routerLink="/super-admin-settings">Super Admin Settings</a>
   }
 
   <a class="sidebar-btn btn" routerLink="/request">Request</a>

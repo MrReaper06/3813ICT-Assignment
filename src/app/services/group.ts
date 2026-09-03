@@ -49,4 +49,24 @@ export class GroupServiceClass {
   rejectChannel(groupId: string, channelId: string, reason: string) {
     return this.http.post<any>(`${BASE}/${groupId}/channels/${channelId}/reject`, { reason });
   }
+
+    getMyGroups(email: string) {
+    return this.http.get<Group[]>(`${BASE}/mine`, { params: { email } });
+  }
+
+  getMembers(groupId: string) {
+    return this.http.get<{ members: any[]; banned: any[] }>(`${BASE}/${groupId}/members`);
+  }
+
+  promote(groupId: string, userEmail: string) {
+    return this.http.post<any>(`${BASE}/${groupId}/promote`, { userEmail });
+  }
+
+  demote(groupId: string, userEmail: string) {
+    return this.http.post<any>(`${BASE}/${groupId}/demote`, { userEmail });
+  }
+
+  banMember(groupId: string, userEmail: string) {
+    return this.http.post<any>(`${BASE}/${groupId}/ban`, { userEmail });
+  }
 }

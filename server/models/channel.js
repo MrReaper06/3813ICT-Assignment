@@ -11,3 +11,5 @@ class Channel {
         this.rejectedReason = null;
     }
 }
+
+export { Channel };
