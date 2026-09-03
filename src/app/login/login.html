@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container mt-4" style="max-width: 400px;">
+  <h2>Login</h2>
+  <form (ngSubmit)="login()">
+    <div class="mb-3">
+      <label class="form-label">Email address</label>
+      <!-- ngModel bound to a signal needs the getter/setter split -
+           [(ngModel)] shorthand only works on plain writable properties. -->
+      <input type="email" class="form-control"
+             [ngModel]="email()" (ngModelChange)="email.set($event)"
+             name="email" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-control"
+             [ngModel]="password()" (ngModelChange)="password.set($event)"
+             name="password" required>
+    </div>
+
+    <!-- @if - built into the template compiler, no CommonModule import needed -->
+    @if (errorMessage()) {
+      <div class="alert alert-danger">{{ errorMessage() }}</div>
+    }
+
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+
+  <div class="text-center mt-3">
+    <span>Don't have an account?</span>
+    <a routerLink="/register" class="ms-1">Register</a>
+  </div>
+</div>
+</body>
+</html>
