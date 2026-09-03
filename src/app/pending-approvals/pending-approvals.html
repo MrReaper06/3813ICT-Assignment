@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Pending group requests</h5>
+
+    @if (requests().length === 0) {
+      <p class="text-muted">No pending requests.</p>
+    }
+
+    @for (request of requests(); track request.id) {
+      <div class="border rounded p-3 mb-2">
+        <strong>{{ request.name }}</strong>
+        <p class="mb-2">{{ request.description }}</p>
+
+        <div class="d-flex gap-2">
+          <button class="btn btn-success btn-sm" (click)="approve(request.id)">Approve</button>
+          <input class="form-control form-control-sm w-auto"
+                 placeholder="Rejection reason"
+                 [ngModel]="rejectionReasons()[request.id] ?? ''"
+                 (ngModelChange)="updateReason(request.id, $event)">
+          <button class="btn btn-danger btn-sm" (click)="reject(request.id)">Reject</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

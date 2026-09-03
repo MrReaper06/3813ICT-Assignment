@@ -1,0 +1,11 @@
+<div class="container mt-4">
+  <h2>Requests</h2>
+
+  @if (auth.currentUser()?.role === 'superAdmin') {
+    <app-pending-approvals></app-pending-approvals>
+  } @else {
+    <app-request-group></app-request-group>
+    <app-request-channel></app-request-channel>
+    <app-my-requests></app-my-requests>
+  }
+</div>

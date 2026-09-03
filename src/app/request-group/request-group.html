@@ -1,0 +1,29 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Request a new group</h5>
+    <form (ngSubmit)="submit()">
+      <div class="mb-2">
+        <label class="form-label">Name</label>
+        <input class="form-control" [ngModel]="name()" (ngModelChange)="name.set($event)" name="name" required>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" [ngModel]="description()" (ngModelChange)="description.set($event)" name="description"></textarea>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Age limit</label>
+        <input type="number" class="form-control" [ngModel]="ageLimit()" (ngModelChange)="ageLimit.set($event)" name="ageLimit">
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Colour theme</label>
+        <input type="color" class="form-control form-control-color" [ngModel]="colourTheme()" (ngModelChange)="colourTheme.set($event)" name="colourTheme">
+      </div>
+
+      @if (successMessage()) {
+        <div class="alert alert-success">{{ successMessage() }}</div>
+      }
+
+      <button type="submit" class="btn btn-primary">Submit request</button>
+    </form>
+  </div>
+</div>

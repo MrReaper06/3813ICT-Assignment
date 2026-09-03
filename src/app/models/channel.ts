@@ -1,5 +1,5 @@
 export interface Channel {
-    channelId: string;
+    id: string;
     groupId: string;
     name: string;
     requestedByUserId: string;

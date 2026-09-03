@@ -1,0 +1,28 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">My requests</h5>
+
+    @if (requests().length === 0) {
+      <p class="text-muted">No requests yet.</p>
+    }
+
+    <ul class="list-group">
+      @for (request of requests(); track request.id) {
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ request.name }}</strong>
+            @if (request.status === 'rejected') {
+              <div class="text-danger small">Rejected: {{ request.rejectionReason }}</div>
+            }
+          </div>
+          <span class="badge"
+                [class.bg-warning]="request.status === 'pending'"
+                [class.bg-danger]="request.status === 'rejected'"
+                [class.bg-success]="request.status === 'approved'">
+            {{ request.status }}
+          </span>
+        </li>
+      }
+    </ul>
+  </div>
+</div>

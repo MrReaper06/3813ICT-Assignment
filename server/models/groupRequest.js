@@ -1,17 +1,16 @@
 import crypto from "node:crypto";
 
-class Group {
+class GroupRequest {
     constructor(name, description, ageLimit, colorTheme, requestedByUserId) {
         this.id = crypto.randomUUID();
         this.name = name;
         this.description = description;
         this.ageLimit = ageLimit;
-        this.colorTheme = colorTheme;
-
-        this.adminIds = [requestedByUserId];
-        this.memberIds = [requestedByUserId];
-        this.bannedUserIds = [];
+        this.colourTheme = colorTheme;
+        this.requestedByUserId = requestedByUserId;
+        this.status = "pending"; // "pending" | "approved" | "rejected"
+        this.rejectionReason = null;
     }
 }
 
-export { Group };
+export { GroupRequest };

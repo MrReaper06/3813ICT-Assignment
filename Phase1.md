@@ -100,7 +100,7 @@ class User {
 ```
 class Group {
     constructor(name, description, ageLimit, colorTheme, requestedByUserId) {
-        this.groupId = groupId;
+        this.groupId = crypto.randomUUID();
         this.name = name;
         this.description = description;
         this.ageLimit = ageLimit;
@@ -130,7 +130,7 @@ export { Group };
 ```
 class Channel {
     constructor(groupId, name, requestedByUserId) {
-        this.channelId = channelId;
+        this.channelId = crypto.randomUUID();
         this.groupId = groupId;
         this.name = name;
         this.requestedByUserId = requestedByUserId;
@@ -152,11 +152,55 @@ class Channel {
 
 # 5. Angular Architecture
 ## 5.1 Components
-This section will be updated as the application is developed.
+| Component | Purpose |
+|---|---|
+| App (root) | It hosts the Navbar and the router-outlet. It was made to have no logic of its own. |
+| Navbar | It is persistent across every route. It will reads Auth's signals to switch between the login and logout states. |
+| Home | It is a static landing page describing the application. It will the first page loaded when the application is opened |
+| Login | It has a form of email and password. It delegates the actual request to Auth.login() and then, it calls Auth.setCurrentUser() on success. |
+| Register | It is the registration form. It will also calculates age from birthdate client-side. It does not auto-login but instead, redirects the user to Login page on success. |
+| Dashboard | It is the landing page after login. It hosts Sidebar + a content area. |
+| Sidebar | It will render buttons such as Groups/Request/Settings/Logout buttons. It will also reads Auth's currentUser role via a computed signal to conditionally insert a Group Settings or Super Admin Settings button above Request. |
+| GroupSettings | Group admin panel: edit group details, member list (allowed/banned), promote/demote, group-level bans. |
+| SuperAdminSettings | Super admin panel: full user list, group creation-request queue, group deletion-request queue, permanent-ban action. |
+| AuditLog | Super admin's audit log view. |
+| RequestForm | It is a shared form for a regular user to submit a group-creation. |
+| Profile | View the user's profile and editing the user's own account details (all fields except email, per client spec). |
+| GroupView | It will displays a group's channel list and, eventually, the live chat itself via Socket.IO. |
 ## 5.2 Services
-This section will be updated as the application is developed.
+| Service | Purpose |
+|---|---|
+| Auth | It holds the currentUser as a signal. It is the single source for auth state, shared app-wide. |
+| GroupService | It wraps the /api/groups/* endpoints - fetching, requesting, approving/rejecting, editing. |
+| ChannelService | It wraps the /api/groups/:id/channels/* endpoints. |
+| UserService | It wraps /api/users and /api/users/:email/ban for the super admin's user management panel. |
+| ChatService | It wraps socket.io-client, sendMessage()/getMessages() rather than components touching sockets directly. |
 ## 5.3 Models
-This section will be updated as the application is developed.
+| Model | Type | Fields |
+|---|---|---|
+| User | Interface | username, email, birthdate, age, role ('user' \| 'groupAdmin' \| 'superAdmin'), banned |
+| Group | Interface | id, name, description, ageLimit, colourTheme, adminIds[], memberIds[], bannedUserIds[] |
+| Channel | Interface | id, groupId, name, requestedByUserId, status ('pending' \| 'approved' \| 'rejected'), rejectionReason |
 
 # 6. REST API
-This section will be updated as the application is developed.
+| Method | Endpoint | Body / Params | Returns | Description |
+|---|---|---|---|---|
+| POST | /api/auth | `{ email, password }` | `{ valid: true, username, email, birthdate, age, role, banned }` or `{ valid: false }` or `{ valid: false, banned: true }` | It checks the credentials against the persisted user list and rejects banned users even on a correct password match. The password is never returned. |
+| POST | /api/register | `{ username, email, password, birthdate, age }` | `{ ok: true, user: {...} }` or `{ ok: false, message }` | It creates a new user if the email id isn't already registered. The email id is the unique identifier - the client spec confirms a banned email can never be reused. |
+| GET | /api/users | - (super admin only) | `User[]` | It returns a full user list including permanently banned accounts, for the super admin dashboard. |
+| PATCH | /api/users/:email/ban | - (super admin only) | `{ ok: true }` | It permanently bans a user. The client spec confirms the email can never be reused. |
+| GET | /api/groups | - | `Group[]` | All groups. Client spec: users can see all groups regardless of age restriction, but joining one below their age is rejected. |
+| POST | /api/groups/request | `{ name, description, ageLimit, colourTheme }` | `{ ok: true, requestId }` | The regular user requests a new group and only a super admin can actually create it from this request. |
+| POST | /api/groups/:id/approve | - (super admin only) | `{ ok: true, group }` | The super admin approves a pending group request, creating a real Group record. |
+| POST | /api/groups/:id/reject | `{ reason }` | `{ ok: true }` | The super admin rejects a group request. Client spec: the rejections must include a reason. |
+| PATCH | /api/groups/:id | `{ name?, description?, ageLimit?, colourTheme? }` | `{ ok: true, group }` | The group admin edits group details. Client spec: no user request required for a group admin to make these changes directly. |
+| POST | /api/groups/:id/promote | `{ userEmail }` | `{ ok: true }` | It promotes an existing group member to group admin. Any current admin can do this. |
+| POST | /api/groups/:id/demote | `{ userEmail }` | `{ ok: true }` or `{ ok: false, message }` | It demotes a group admin back to member. Rejected if it would leave the group with zero admins. |
+| POST | /api/groups/:id/ban | `{ userEmail }` | `{ ok: true }` | Group-level ban - removes the user from this group only, it is distinct from a system-wide super admin ban. |
+| GET | /api/groups/:id/members | - (group admin only) | `{ members: User[], banned: User[] }` | It is the group admin's view of allowed and banned members for their own group. |
+| DELETE | /api/groups/:id/request | `{ reason }` | `{ ok: true, requestId }` | The group admin can request group deletion from the super admin (a group can't self-delete). |
+| POST | /api/groups/:id/channels/request | `{ name }` | `{ ok: true, requestId }` | A regular user proposes a new channel within a group. |
+| POST | /api/groups/:id/channels/:channelId/approve | - (group admin only) | `{ ok: true, channel }` | The group admin approves a pending channel request. |
+| POST | /api/groups/:id/channels/:channelId/reject | `{ reason }` | `{ ok: true }` | The group admin rejects a channel request. Client spec: rejections must include a reason. |
+| PATCH | /api/groups/:id/channels/:channelId | `{ name }` | `{ ok: true, channel }` | The group admin edits a channel's name (e.g. fixing a typo), per client spec. |
+| GET | /api/audit-log | - | `AuditEntry[]` | It is the super admin's audit log - filterable by type and date range per client spec. |

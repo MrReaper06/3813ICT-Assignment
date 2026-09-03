@@ -1,6 +1,8 @@
+import crypto from "node:crypto";
+
 class Channel {
-    constructor(channelId, groupId, name, requestedByUserId) {
-        this.channelId = channelId;
+    constructor(groupId, name, requestedByUserId) {
+        this.id = crypto.randomUUID();
         this.groupId = groupId;
         this.name = name;
         this.requestedByUserId = requestedByUserId;
