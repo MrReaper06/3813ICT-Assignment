@@ -152,11 +152,35 @@ class Channel {
 
 # 5. Angular Architecture
 ## 5.1 Components
-This section will be updated as the application is developed.
+| Component | Purpose |
+|---|---|
+| App (root) | It hosts the Navbar and the router-outlet. It was made to have no logic of its own. |
+| Navbar | It is persistent across every route. It will reads Auth's signals to switch between the login and logout states. |
+| Home | It is a static landing page describing the application. It will the first page loaded when the application is opened |
+| Login | It has a form of email and password. It delegates the actual request to Auth.login() and then, it calls Auth.setCurrentUser() on success. |
+| Register | It is the registration form. It will also calculates age from birthdate client-side. It does not auto-login but instead, redirects the user to Login page on success. |
+| Dashboard | It is the landing page after login. It hosts Sidebar + a content area. |
+| Sidebar | It will render buttons such as Groups/Request/Settings/Logout buttons. It will also reads Auth's currentUser role via a computed signal to conditionally insert a Group Settings or Super Admin Settings button above Request. |
+| GroupSettings | Group admin panel: edit group details, member list (allowed/banned), promote/demote, group-level bans. |
+| SuperAdminSettings | Super admin panel: full user list, group creation-request queue, group deletion-request queue, permanent-ban action. |
+| AuditLog | Super admin's audit log view. |
+| RequestForm | It is a shared form for a regular user to submit a group-creation. |
+| Profile | View the user's profile and editing the user's own account details (all fields except email, per client spec). |
+| GroupView | It will displays a group's channel list and, eventually, the live chat itself via Socket.IO. |
 ## 5.2 Services
-This section will be updated as the application is developed.
+| Service | Purpose |
+|---|---|
+| Auth | It holds the currentUser as a signal. It is the single source for auth state, shared app-wide. |
+| GroupService | It wraps the /api/groups/* endpoints - fetching, requesting, approving/rejecting, editing. |
+| ChannelService | It wraps the /api/groups/:id/channels/* endpoints. |
+| UserService | It wraps /api/users and /api/users/:email/ban for the super admin's user management panel. |
+| ChatService | It wraps socket.io-client, sendMessage()/getMessages() rather than components touching sockets directly. |
 ## 5.3 Models
-This section will be updated as the application is developed.
+| Model | Type | Fields |
+|---|---|---|
+| User | Interface | username, email, birthdate, age, role ('user' \| 'groupAdmin' \| 'superAdmin'), banned |
+| Group | Interface | id, name, description, ageLimit, colourTheme, adminIds[], memberIds[], bannedUserIds[] |
+| Channel | Interface | id, groupId, name, requestedByUserId, status ('pending' \| 'approved' \| 'rejected'), rejectionReason |
 
 # 6. REST API
 This section will be updated as the application is developed.
