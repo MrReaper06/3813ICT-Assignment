@@ -1,0 +1,29 @@
+[
+  {
+    "username": "regularUser",
+    "email": "user@example.com",
+    "password": "user123",
+    "birthdate": "1998-04-12",
+    "age": 27,
+    "role": "user",
+    "banned": false
+  },
+  {
+    "username": "groupAdmin",
+    "email": "admin@example.com",
+    "password": "admin123",
+    "birthdate": "1990-01-01",
+    "age": 36,
+    "role": "groupAdmin",
+    "banned": false
+  },
+  {
+    "username": "superAdmin",
+    "email": "super@example.com",
+    "password": "super123",
+    "birthdate": "1985-06-15",
+    "age": 41,
+    "role": "superAdmin",
+    "banned": false
+  }
+]
