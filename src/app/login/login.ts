@@ -24,7 +24,7 @@ export class Login {
           this.errorMessage.set("");
           const { valid, ...user } = data;
           this.auth.setCurrentUser(user);
-          this.router.navigate(["/profile"]);
+          this.router.navigate(["/dashboard"]);
         } else if (data.banned) {
           this.errorMessage.set("This account has been banned");
         } else {

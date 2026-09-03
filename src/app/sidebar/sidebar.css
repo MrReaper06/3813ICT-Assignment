@@ -1,0 +1,17 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  width: 220px;
+  padding: 1rem;
+  border-right: 1px solid #dee2e6;
+}
+
+.sidebar-btn {
+  margin-bottom: 0.75rem;
+  text-align: left;
+  padding: 0.5rem 1rem;
+}
+
+.sidebar-spacer {
+  flex-grow: 1;
+}
