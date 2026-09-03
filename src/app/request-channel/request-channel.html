@@ -1,0 +1,26 @@
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Propose a channel</h5>
+    <form (ngSubmit)="submit()">
+      <div class="mb-2">
+        <label class="form-label">Group</label>
+        <select class="form-select" [ngModel]="selectedGroupId()" (ngModelChange)="selectedGroupId.set($event)" name="group">
+          <option value="" disabled>Select a group</option>
+          @for (group of groups(); track group.id) {
+            <option [value]="group.id">{{ group.name }}</option>
+          }
+        </select>
+      </div>
+      <div class="mb-2">
+        <label class="form-label">Channel name</label>
+        <input class="form-control" [ngModel]="name()" (ngModelChange)="name.set($event)" name="channelName" required>
+      </div>
+
+      @if (successMessage()) {
+        <div class="alert alert-success">{{ successMessage() }}</div>
+      }
+
+      <button type="submit" class="btn btn-primary">Submit request</button>
+    </form>
+  </div>
+</div>

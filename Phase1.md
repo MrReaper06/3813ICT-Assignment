@@ -100,7 +100,7 @@ class User {
 ```
 class Group {
     constructor(name, description, ageLimit, colorTheme, requestedByUserId) {
-        this.groupId = groupId;
+        this.groupId = crypto.randomUUID();
         this.name = name;
         this.description = description;
         this.ageLimit = ageLimit;
@@ -130,7 +130,7 @@ export { Group };
 ```
 class Channel {
     constructor(groupId, name, requestedByUserId) {
-        this.channelId = channelId;
+        this.channelId = crypto.randomUUID();
         this.groupId = groupId;
         this.name = name;
         this.requestedByUserId = requestedByUserId;

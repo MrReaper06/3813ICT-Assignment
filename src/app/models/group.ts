@@ -1,5 +1,5 @@
 export interface Group {
-    groupId: string;
+    id: string;
     name: string;
     description: string;
     ageLimit: number;
